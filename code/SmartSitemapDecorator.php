@@ -1,18 +1,14 @@
 <?php
 
-class SmartSitemapDecorator extends DataObjectDecorator {
+class SmartSitemapDecorator extends DataExtension {
 
-	function extraStatics() {
-		return array(
-			'db'		=> array(
-				'ExcludeFromHTML'	=> 'Boolean',
-				'ExcludeFromXML'	=> 'Boolean',
-				'Priority'			=> 'Float'
-			)
-		);
-	}
+	public static $db = array(
+		'ExcludeFromHTML'	=> 'Boolean',
+		'ExcludeFromXML'	=> 'Boolean',
+		'Priority'		=> 'Float'
+	);
 
-	function updateCMSFields(&$fields) {
+	function updateCMSFields(FieldList $fields) {
 		$pagePriorities = array(
 			''		=> _t('SiteTree.PRIORITYAUTOSET','Auto-set based on page depth'),
 			//	We set this to negative one because a blank value implies auto-generation of Priority
@@ -119,7 +115,7 @@ class SmartSitemapDecorator extends DataObjectDecorator {
 			. $extraFilter, "");
 
 		if (! $sitemap)
-			$sitemap = new DataObjectSet();
+			$sitemap = new ArrayList();
 		$this->owner->extend("augmentSitemapChildren", $sitemap, $showAll);
 
 		return $sitemap;

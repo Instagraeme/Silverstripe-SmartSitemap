@@ -10,11 +10,16 @@ Director::addRules(15, array(
 ));
 
 
+SmartSitemap::enable();
+SmartSitemap::disable_ping();
+SmartSitemap::disableStyleSheet();
 
-//	SmartSitemap::enable() / ::disable()
-//	SmartSitemap::enable_ping() / ::disable_ping()
 
 /*
+	SmartSitemap::enable() / ::disable()
+	SmartSitemap::enable_ping() / ::disable_ping()
+	SmartSitemap::enableStyleSheet() / ::disableStyleSheet()
+
 	//	Control Search Engine Settings
 
 	SmartSitemap::set_search_engine_notification('ask', false);
@@ -27,3 +32,4 @@ Director::addRules(15, array(
 		'path'		=> 'path_for_submissions',
 		'query'		=> 'sitemap_query='
 	));
+*/

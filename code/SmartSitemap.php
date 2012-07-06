@@ -7,6 +7,7 @@ class SmartSitemap extends Controller {
 	 */
 	protected static $enabled = true;
 	protected static $can_ping = true;
+	protected static $styleSheet = true;
 
 	/**
 	 * @var DataObjectSet
@@ -72,12 +73,10 @@ class SmartSitemap extends Controller {
 	}
 
 	public function Items() {
-		$this->Pages = Versioned::get_by_stage('SiteTree', 'Live');
-
-		$SitemapItems = new DataObjectSet();
+		$this->Pages = Versioned::get_by_stage('SiteTree', 'Live', '', 'ClassName ASC');
+		$SitemapItems = new ArrayList();
 
 		$now_seconds = date('U');
-
 		foreach($this->Pages as $page) {
 			if ('ErrorPage' == $page->ClassName)
 				continue;
@@ -85,7 +84,7 @@ class SmartSitemap extends Controller {
 			if ($page->ExcludeFromXML)
 				continue;
 
-			//	We prefix $_SERVER['HTTP_HOST'] with 'http://' so that parse_url to help parse_url identify the host name component; we could use another protocol (like 
+			//We prefix $_SERVER['HTTP_HOST'] with 'http://' so that parse_url to help parse_url identify the host name component; we could use another protocol (like 
 			// 'ftp://' as the prefix and the code would work the same. 
 			if (parse_url($page->AbsoluteLink(), PHP_URL_HOST) == parse_url('http://' . $_SERVER['HTTP_HOST'], PHP_URL_HOST)) {
 				if ($page->canView()) {
@@ -93,7 +92,6 @@ class SmartSitemap extends Controller {
 					$timediff = $now_seconds - $created_seconds;
 
 					$page->ChangeFreq = $this->change_frequency($timediff, $page->Version + 1);
-
 					$SitemapItems->push($page);
 				}
 			}
@@ -174,6 +172,17 @@ class SmartSitemap extends Controller {
 		}
 	}
 
+	static function styleSheet() {
+		if (! self::$enabled || ! self::$styleSheet)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 	public static function enable() {
 		self::$enabled = true;
 	}
@@ -190,5 +199,12 @@ class SmartSitemap extends Controller {
 		self::$can_ping = false;
 	}
 
+	public static function enableStyleSheet() {
+		self::$styleSheet = true;
+	}
+
+	public static function disableStyleSheet() {
+		self::$styleSheet = false;
+	}
 }
 
