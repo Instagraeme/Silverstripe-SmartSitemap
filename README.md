@@ -1,4 +1,10 @@
-See http://yoast.com/xsl-stylesheet-xml-sitemap/ for more info.
+## SmartSitemap
+
+Modified for SilverStripe 3.0 by Graeme Smith
+
+## Additional Functionality
+
+Setting SmartSitemap::enableStyleSheet() in _config will include /sitemap.xsl in /sitemap.xml  See http://yoast.com/xsl-stylesheet-xml-sitemap/ for more info.
 
 ## Original README:
 
