@@ -5,11 +5,6 @@ if (class_exists('GoogleSitemapDecorator'))
 
 DataObject::add_extension('SiteTree', 'SmartSitemapDecorator');
 
-Director::addRules(15, array(
-	'sitemap.xml'	=> 'SmartSitemap',
-));
-
-
 SmartSitemap::enable();
 SmartSitemap::disable_ping();
 SmartSitemap::disableStyleSheet();
